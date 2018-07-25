@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+<h3>html form method</h3>
+<form action="/Test/Create" form method="post">
+    <input type="text" name="StudentName" placeholder="Enter student Name.." />
+    <input type="text" name="StudentAddress" placeholder="Enter student Address.." />
+    <input type="text" name="DOB" placeholder="Enter the Date of birth.." />
+    <input type="submit" value="submit" class="btn btn-primary" />
+</form>
+<br />
+<h3>Razor form method</h3>
+@using (Html.BeginForm("Create", "Test", FormMethod.Post))
+{
+    @Html.TextBox("studentName", null, htmlAttributes: new { placeholder = "Type your name" });
+    @Html.TextBox("studentAddress", null, htmlAttributes: new { placeholder = "Type your address" });
+    @Html.TextBox("dob", null, htmlAttributes: new { placeholder = "Type your dob" });
+    <input type="submit" value="submit" class="btn btn-primary" />
+}
+
+@ViewBag.studentname<br />
+@ViewBag.studentAddress<br />
+@ViewBag.dob

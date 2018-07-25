@@ -1,0 +1,28 @@
+﻿@model SMS.Models.ViewModel.StudentViewModel
+@{
+    ViewBag.Title = "Create2";
+}
+
+<h2>Create2</h2>
+@using (Html.BeginForm("Create2", "Test"))
+{
+    @Html.TextBoxFor(model => model.Name, htmlAttributes: new { @placeholder = "Enter first name " })
+    @Html.TextBoxFor(model => model.Address, htmlAttributes: new { @placeholder = "Enter address " })
+    @Html.TextBoxFor(model => model.PhoneNumber, htmlAttributes: new { @placeholder = "Enter phonenumber " })
+    @Html.TextBoxFor(model => model.DateOfBirth, htmlAttributes: new { @placeholder = "Enter date of birth " })
+    @Html.TextBoxFor(model => model.FatherName, htmlAttributes: new { @placeholder = "Enter your father's name " })
+    <input type="submit" value="create" class="btn btn-default" />
+    <br /><br />
+}
+
+@using (Html.BeginForm("Create2", "Test", FormMethod.Post))
+{
+    @Html.TextBoxFor(model => model.Name, htmlAttributes: new { @placeholder = "Enter your name " })
+    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "bg bg-danger" })
+    @Html.TextBoxFor(model => model.Address, htmlAttributes: new { @placeholder = "Enter address " })
+    @Html.TextBoxFor(model => model.PhoneNumber, htmlAttributes: new { @placeholder = "Enter phonenumber " })
+    @Html.TextBoxFor(model => model.DateOfBirth, htmlAttributes: new { @placeholder = "Enter date of birth " })
+    @Html.TextBoxFor(model => model.FatherName, htmlAttributes: new { @placeholder = "Enter your father's name " })
+    <input type="submit" value="create" class="btn btn-default" />
+
+}

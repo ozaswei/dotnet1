@@ -1,0 +1,63 @@
+﻿using SMS.Models.DbModel;
+using SMS.Models.Repository;
+using SMS.Models.ViewModel;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace SMS.Controllers
+{
+    public class StudentController : Controller
+    {
+        // GET: Student
+        public ActionResult Index()
+        {
+            StudentRepository studentRepository = new StudentRepository();
+            var students = studentRepository.GetAllStudents();
+            return View(students);
+        }
+        public ActionResult Create()
+        {
+            SchoolManagementSystemEntities _db = new SchoolManagementSystemEntities(); 
+            StudentRepository studentRepository = new StudentRepository();
+            StudentViewModel studentViewModel = new StudentViewModel();
+            ViewBag.facultyList = (from faculty in _db.TblFaculties
+                                   select new SelectListItem
+                                   {
+                                       Text = faculty.FacultyName+" "+faculty.Section,
+                                       Value = faculty.Id.ToString()
+                                   });
+            
+            studentViewModel.Subjects = studentRepository.GetAllSubject();
+            return View(studentViewModel);
+        }
+      
+        [HttpPost]
+        public ActionResult Create(StudentViewModel student)
+        {
+            StudentRepository repo = new StudentRepository();
+            repo.InsertStudent(student);
+            return RedirectToAction("Index");
+        }
+        public ActionResult Edit(int id)
+        {
+            StudentRepository repo = new StudentRepository();
+            SchoolManagementSystemEntities _db = new SchoolManagementSystemEntities();
+            ViewBag.facultyList = (from faculty in _db.TblFaculties
+                                   select new SelectListItem
+                                   {
+                                       Text = faculty.FacultyName + "-" + faculty.Section,
+                                       Value = faculty.Id.ToString()
+                                   });
+            var student = repo.GetStudentById(id);
+            return View(student);
+        }
+        [HttpPost]
+        public ActionResult Edit(StudentViewModel student)
+        {
+            return View();
+        }
+    }
+}
