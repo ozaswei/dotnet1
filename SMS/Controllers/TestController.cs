@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace SMS.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class TestController : Controller
     {
         // GET: Test

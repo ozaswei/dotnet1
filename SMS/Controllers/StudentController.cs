@@ -57,7 +57,16 @@ namespace SMS.Controllers
         [HttpPost]
         public ActionResult Edit(StudentViewModel student)
         {
-            return View();
+            StudentRepository repo = new StudentRepository();
+            repo.UpdateStudent(student);
+            return RedirectToAction("Index");           
+        }
+
+        public ActionResult Delete(int Id)
+        {
+            StudentRepository repo = new StudentRepository();
+            repo.DeleteStudent(Id);
+            return RedirectToAction("Index");
         }
     }
 }

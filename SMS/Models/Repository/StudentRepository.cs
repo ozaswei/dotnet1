@@ -113,7 +113,8 @@ namespace SMS.Models.Repository
         public List<SubjectSelectViewModel> GetAssignedSubjectsById(int studentId)
         {
             List<SubjectSelectViewModel> subjects = GetAllSubject();
-            List<int?> selectedIds = _db.tblStudentSubjects.Where(x => x.StudentId == studentId).Select(x => x.SubjectId).ToList();
+            List<int?> selectedIds = _db.tblStudentSubjects.Where(x => x.StudentId == studentId)
+                .Select(x => x.SubjectId).ToList();
             foreach(var id in selectedIds)
             {
                 foreach(var subject in subjects)
@@ -126,7 +127,74 @@ namespace SMS.Models.Repository
             }
             return subjects;
         }
+        public bool UpdateStudent(StudentViewModel student)
+        {
+            tb1Student oldStudent = _db.tb1Student.Find(student.Id);
+            tb1Student newStudent = new tb1Student
+            {
+                Id = student.Id,
+                Name = student.Name,
+                Address = student.Address,
+                PhoneNumber = student.PhoneNumber,
+                Gender = student.Gender,
+                FatherName=student.FatherName,
+                DateOfBirth = student.DateOfBirth,
+                FacultyId = student.FacultyId
+            };
+            _db.Entry(oldStudent).CurrentValues.SetValues(newStudent);
+            UpdateStudentSubjects(student.Subjects, student.Id);
+            return _db.SaveChanges() >0;
+        }
+        public bool UpdateStudentSubjects(List<SubjectSelectViewModel>subjectSelectViewModels,int studentId)
+        {
+            List<int> selectedValues = subjectSelectViewModels.Where(x => x.IsSelected == true).Select(x=>x.Id).ToList();
+            List<int> deselectedValues = subjectSelectViewModels.Where(x => x.IsSelected == false).Select(x => x.Id).ToList();
+            foreach(var id in selectedValues)
+            {
+                var subject = (from substud in _db.tblStudentSubjects
+                               where substud.StudentId == studentId && substud.SubjectId == id
+                               select substud).FirstOrDefault();
+                if(subject ==null)
+                {
+                    tblStudentSubject studentSubject = new tblStudentSubject()
+                    {
+                        StudentId = studentId,
+                        SubjectId=id
 
+                    };
+                    _db.tblStudentSubjects.Add(studentSubject);
 
+                }
+                    
+            }
+            foreach(var subjectId in deselectedValues)
+            {
+                var subject = (from substud in _db.tblStudentSubjects
+                               where substud.StudentId == studentId && substud.SubjectId == subjectId
+                               select substud).FirstOrDefault();
+                if (subject != null)
+                {
+                    _db.tblStudentSubjects.Remove(subject);
+                    _db.SaveChanges();
+                }
+            }
+            return true;
+        }
+        public bool DeleteStudent(int id)
+        {
+            tb1Student student = _db.tb1Student.Find(id);
+            List<tblStudentSubject> studentSubjects = (from ss in _db.tblStudentSubjects where ss.StudentId == id select ss).ToList();
+            foreach(var studentSubject in studentSubjects)
+            {
+                _db.tblStudentSubjects.Attach(studentSubject);
+                _db.tblStudentSubjects.Remove(studentSubject);
+            }
+            if(student !=null)
+            {
+                _db.tb1Student.Attach(student);
+                _db.tb1Student.Remove(student);
+            }
+            return _db.SaveChanges()>0;
+        }
     }
 }
