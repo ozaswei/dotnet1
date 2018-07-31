@@ -2,6 +2,7 @@
 using SMS.Models.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
@@ -195,6 +196,32 @@ namespace SMS.Models.Repository
                 _db.tb1Student.Remove(student);
             }
             return _db.SaveChanges()>0;
+        }
+        public List<StudentViewModel> GetAllStudentsAdo()
+        {
+            string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["SchoolManagementSystem"].ConnectionString;
+            string query = "select * from tb1Student";
+            List<StudentViewModel> students = new List<StudentViewModel>();
+            SqlConnection con = new SqlConnection(connectionString);
+            using (SqlCommand cmd = new SqlCommand(query, con))
+            {
+                con.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while(reader.Read())
+                {
+                    StudentViewModel student = new StudentViewModel();
+                    student.Id = Convert.ToInt32(reader["Id"]);
+                    student.Name = reader["Name"].ToString();
+                    student.Address = reader["Address"].ToString();
+                    student.DateOfBirth = Convert.ToDateTime(reader["DateOfBirth"]);
+                    student.FacultyId = Convert.ToInt32(reader["FacultyID"]?.ToString());
+                    student.FatherName = reader["FatherName"].ToString();
+                    student.Gender = reader["Gender"].ToString();
+                    students.Add(student);
+                }
+                con.Close();
+            }
+            return students;
         }
     }
 }
