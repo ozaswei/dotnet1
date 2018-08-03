@@ -79,6 +79,15 @@ namespace SMS.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    //Response.Cookies["email"].Value = model.Email; this is less better than the below one
+                    //Response.Cookies["email"].Expires = DateTime.Now.AddSeconds(30);
+                    HttpCookie aCookie = new HttpCookie("userinfo");
+                    aCookie.Value = DateTime.Now.ToString();
+                    aCookie["email"] = model.Email;
+                    aCookie.Expires = DateTime.Now.AddSeconds(30);
+                    var test = Request.Cookies["userinfo"];
+                    Response.Cookies.Add(aCookie);
+                    //Session["email"] = model.Email;
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");

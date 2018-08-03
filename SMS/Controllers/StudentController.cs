@@ -1,19 +1,29 @@
-﻿using SMS.Models.DbModel;
+﻿using SMS.Common;
+using SMS.Models.DbModel;
 using SMS.Models.Repository;
 using SMS.Models.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.ModelBinding;
 using System.Web.Mvc;
 
 namespace SMS.Controllers
 {
+    [CookieFilterAttribute]
     public class StudentController : Controller
     {
         // GET: Student
+        //[SessionStateFilter]
+        
         public ActionResult Index()
-        {
+        {          
+           
+            /*if(Session["email"]==null)
+            {
+                return RedirectToAction("Login","Account");
+            }*/
             StudentRepository studentRepository = new StudentRepository();
             var students = studentRepository.GetAllStudents();
             return View(students);
