@@ -1,31 +1,42 @@
-﻿@{
-    ViewBag.Title = "Home Page";
-}
-
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
-
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+﻿
+<style>
+    .red{
+        background-color: red;
+    }
+    .blue{
+        background-color:blue;
+    }
+</style>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<form>
+    <input type="button" id="test" value="click here" class="btn-primary" onclick="changeText() " />
+    <div id="content">
+        content
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+</form>
+<script>
+    var changeText = function () {
+        //document.getElementById("content").innerHTML="content changed";
+        $('#content').text('content changed');
+        /* if ($('#test').hasClass('btn-primary'))
+            $('#test').removeClass('btn-primary').addClass('btn-danger');
+        else if (($('#test').hasClass('btn-danger')))
+            $('#test').removeClass('btn-danger').addClass('btn-primary');*/
+        alert('test');
+        $('#test').toggleClass('btn-primary btn-danger');
+        console.log("class toggled");
+        window.location = "./About";
+    }
+</script>
+<p>hover me</p>
+<script>
+    //var mouseover() = function () {
+      //  $('p').addClass('red');
+    //}
+    $('p').on('mouseover', function () {
+        $('p').addClass('red');
+    });
+    $('p').on('mouseout', function () {
+        $('p').addClass('blue');
+    });
+</script>
