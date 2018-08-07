@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "IndexAjax";
+}
+
+<h2>IndexAjax</h2>
+
+<div id="load">
+    @section Scripts{
+        <script>
+            $(document).ready(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("_IndexPartial","Student")',
+                    datatype: 'html',
+                    success: function (response) {
+                        $('#load').html(response);
+                    },
+                    error: function () {
+                        alert('error occured while fetching...')
+                    }
+                });
+            });
+            
+        </script>
+    }
+</div>

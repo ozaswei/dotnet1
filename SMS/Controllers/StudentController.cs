@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace SMS.Controllers
 {
-    [CookieFilterAttribute]
+  //  [CookieFilterAttribute]
     public class StudentController : Controller
     {
         // GET: Student
@@ -77,6 +77,16 @@ namespace SMS.Controllers
             StudentRepository repo = new StudentRepository();
             repo.DeleteStudent(Id);
             return RedirectToAction("Index");
+        }
+        public ActionResult IndexAjax()
+        {
+            return View();
+        }
+        public ActionResult _IndexPartial()
+        {
+            StudentRepository studentRepository = new StudentRepository();
+            var students = studentRepository.GetAllStudents();
+            return View(students);
         }
     }
 }
