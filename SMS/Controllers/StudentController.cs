@@ -88,5 +88,20 @@ namespace SMS.Controllers
             var students = studentRepository.GetAllStudents();
             return View(students);
         }
+        public ActionResult _Create()
+        {
+            SchoolManagementSystemEntities _db = new SchoolManagementSystemEntities();
+            StudentRepository studentRepository = new StudentRepository();
+            StudentViewModel studentViewModel = new StudentViewModel();
+            ViewBag.facultyList = (from faculty in _db.TblFaculties
+                                   select new SelectListItem
+                                   {
+                                       Text = faculty.FacultyName + " " + faculty.Section,
+                                       Value = faculty.Id.ToString()
+                                   });
+
+            studentViewModel.Subjects = studentRepository.GetAllSubject();
+            return View(studentViewModel);
+        }
     }
 }
