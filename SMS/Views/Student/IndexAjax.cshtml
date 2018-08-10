@@ -4,12 +4,15 @@
 }
 
 <h2>IndexAjax</h2>
-@{Html.RenderAction("_Create"); }
+@{Html.RenderAction("_create"); }
 <div id="load">
     @section Scripts{
         <script>
             $(document).ready(function () {
-                $.ajax({
+                fetchStudent();
+            });
+            var fetchStudent = function () {
+                 $.ajax({
                     type: 'GET',
                     url: '@Url.Action("_IndexPartial","Student")',
                     datatype: 'html',
@@ -20,8 +23,55 @@
                         alert('error occured while fetching...')
                     }
                 });
+            }
+             $('#Name').on('keydown', function () {
+        var name = $('#Name').val();
+        if (name == '') {
+            $('#errorMsg').text('This field is required');
+            $('#errorMsg').innerHTML = "type it again ";
+                 }
+             });
+         var create = function() {
+            var name = $('#Name').val();
+            var address = $('#Address').val();
+            var phoneNumber = $('#PhoneNumber').val();
+            var dateOfBirth = $('#DateOfBirth').val();
+            var fatherName = $('#FatherName').val();
+            var facultyId = $('#FacultyId').val();
+            var count = $('#SubjectCount').val();
+            var subjects = [];
+            for (var i = 0; i < count; i++) {
+                var id = $('#Subjects_' + i + '__Id').val();
+                var subName = $('#Subjects_' + i + '__SubjectName').val();
+                var isChecked = $('#Subjects_' + i + '__IsSelected').is(":checked");
+                subjects.push({ "id": id, "subjectName": subName, "isSelected": isChecked });
+            }
+            var gender = $("input[name='Gender']:checked").val();
+            var student = {
+                "name": name,
+                "address": address,
+                "phoneNumber": phoneNumber,
+                "dateOfBirth": dateOfBirth,
+                "fatherName": fatherName,
+                "facultyId": facultyId,
+                "subjects": subjects,
+                "Gender": gender
+            };
+            $.ajax({
+                type: 'post',
+                url: '@Url.Action("Create", "Student")',
+                data: { student: student },
+                success: function (res) {
+                    alert('Inserted Successfully');
+                    fetchStudent();
+                },
+                error: function() {
+                    alert('error occured');
+                }
             });
-            
+        }
+
+
         </script>
     }
 </div>

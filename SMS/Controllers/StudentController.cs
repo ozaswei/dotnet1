@@ -1,9 +1,12 @@
-﻿using SMS.Common;
+﻿using Microsoft.Reporting.WebForms;
+using SMS.Common;
 using SMS.Models.DbModel;
 using SMS.Models.Repository;
 using SMS.Models.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.ModelBinding;
@@ -49,7 +52,7 @@ namespace SMS.Controllers
         {
             StudentRepository repo = new StudentRepository();
             repo.InsertStudent(student);
-            return RedirectToAction("Index");
+            return Json(true);
         }
         public ActionResult Edit(int id)
         {
@@ -102,6 +105,48 @@ namespace SMS.Controllers
 
             studentViewModel.Subjects = studentRepository.GetAllSubject();
             return View(studentViewModel);
+        }
+        public ActionResult DownloadReport()
+        {
+            LocalReport lr = new LocalReport();
+            StudentRepository repository = new StudentRepository();
+            string path = Path.Combine(Server.MapPath("~/Views/Reports"), "StudentDetails.rdlc");
+            if (System.IO.File.Exists(path))
+            {
+                lr.ReportPath = path;
+            }
+            else
+            {
+
+            }
+            var students = repository.GetAllStudents();
+            ReportDataSource rd = new ReportDataSource("DataSet1", students);
+            lr.DataSources.Add(rd);
+            IList<ReportParameter> reportParameters = new List<ReportParameter>()
+            {
+                new ReportParameter("title","Test Report"),
+                new ReportParameter("footer","Generated on"+DateTime.Now)
+            };
+            lr.SetParameters(reportParameters);
+            string mimeType;
+            string encoding;
+            string fileNameExtension;
+            Warning[] warnings;
+            string[] streams;
+            byte[] renderBytes;
+
+            lr.Refresh();
+            renderBytes = lr.Render(
+                "PDF",
+                null,
+                out mimeType,
+                out encoding,
+                out fileNameExtension,
+                out streams,
+                out warnings
+                );
+            Response.AddHeader("Content-Disposition", "attachment; filename=Test.pdf");
+            return new FileContentResult(renderBytes, mimeType);
         }
     }
 }
