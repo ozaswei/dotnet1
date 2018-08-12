@@ -1,0 +1,42 @@
+﻿
+<style>
+    .red{
+        background-color: red;
+    }
+    .blue{
+        background-color:blue;
+    }
+</style>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<form>
+    <input type="button" id="test" value="click here" class="btn-primary" onclick="changeText() " />
+    <div id="content">
+        content
+    </div>
+</form>
+<script>
+    var changeText = function () {
+        //document.getElementById("content").innerHTML="content changed";
+        $('#content').text('content changed');
+        /* if ($('#test').hasClass('btn-primary'))
+            $('#test').removeClass('btn-primary').addClass('btn-danger');
+        else if (($('#test').hasClass('btn-danger')))
+            $('#test').removeClass('btn-danger').addClass('btn-primary');*/
+        alert('test');
+        $('#test').toggleClass('btn-primary btn-danger');
+        console.log("class toggled");
+        window.location = "./About";
+    }
+</script>
+<p>hover me</p>
+<script>
+    //var mouseover() = function () {
+      //  $('p').addClass('red');
+    //}
+    $('p').on('mouseover', function () {
+        $('p').addClass('red');
+    });
+    $('p').on('mouseout', function () {
+        $('p').addClass('blue');
+    });
+</script>

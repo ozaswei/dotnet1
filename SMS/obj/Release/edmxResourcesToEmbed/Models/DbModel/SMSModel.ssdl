@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SchoolManagementSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="tb1Student">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Address" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="FatherName" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="PhoneNumber" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="FacultyId" Type="int" />
+    <Property Name="Gender" Type="char" MaxLength="1" />
+    <Property Name="DateOfBirth" Type="datetime" />
+  </EntityType>
+  <EntityType Name="TblDepartment">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DepartmentName" Type="nvarchar" MaxLength="100" />
+    <Property Name="DepartmentHead" Type="int" />
+  </EntityType>
+  <EntityType Name="TblFaculty">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FacultyName" Type="nvarchar" MaxLength="10" />
+    <Property Name="Section" Type="char" MaxLength="1" />
+    <Property Name="DepartmentId" Type="int" />
+  </EntityType>
+  <EntityType Name="tblStudentSubject">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StudentId" Type="int" />
+    <Property Name="SubjectId" Type="int" />
+  </EntityType>
+  <EntityType Name="tblSubject">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="varchar" MaxLength="10" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK__tb1Studen__Facul__05D8E0BE">
+    <End Role="TblFaculty" Type="Self.TblFaculty" Multiplicity="0..1" />
+    <End Role="tb1Student" Type="Self.tb1Student" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TblFaculty">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="tb1Student">
+        <PropertyRef Name="FacultyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblStudentSubject_student">
+    <End Role="tb1Student" Type="Self.tb1Student" Multiplicity="0..1" />
+    <End Role="tblStudentSubject" Type="Self.tblStudentSubject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb1Student">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="tblStudentSubject">
+        <PropertyRef Name="StudentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblStudentSubject_subject">
+    <End Role="tblSubject" Type="Self.tblSubject" Multiplicity="0..1" />
+    <End Role="tblStudentSubject" Type="Self.tblStudentSubject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblSubject">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="tblStudentSubject">
+        <PropertyRef Name="SubjectId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="tdlFaculty_Department">
+    <End Role="TblDepartment" Type="Self.TblDepartment" Multiplicity="0..1" />
+    <End Role="TblFaculty" Type="Self.TblFaculty" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TblDepartment">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TblFaculty">
+        <PropertyRef Name="DepartmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SchoolManagementSystemModelStoreContainer">
+    <EntitySet Name="tb1Student" EntityType="Self.tb1Student" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TblDepartment" EntityType="Self.TblDepartment" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TblFaculty" EntityType="Self.TblFaculty" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblStudentSubject" EntityType="Self.tblStudentSubject" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblSubject" EntityType="Self.tblSubject" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__tb1Studen__Facul__05D8E0BE" Association="Self.FK__tb1Studen__Facul__05D8E0BE">
+      <End Role="TblFaculty" EntitySet="TblFaculty" />
+      <End Role="tb1Student" EntitySet="tb1Student" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblStudentSubject_student" Association="Self.FK_tblStudentSubject_student">
+      <End Role="tb1Student" EntitySet="tb1Student" />
+      <End Role="tblStudentSubject" EntitySet="tblStudentSubject" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblStudentSubject_subject" Association="Self.FK_tblStudentSubject_subject">
+      <End Role="tblSubject" EntitySet="tblSubject" />
+      <End Role="tblStudentSubject" EntitySet="tblStudentSubject" />
+    </AssociationSet>
+    <AssociationSet Name="tdlFaculty_Department" Association="Self.tdlFaculty_Department">
+      <End Role="TblDepartment" EntitySet="TblDepartment" />
+      <End Role="TblFaculty" EntitySet="TblFaculty" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -137,7 +137,7 @@ namespace SMS.Controllers
 
             lr.Refresh();
             renderBytes = lr.Render(
-                "PDF",
+                "EXCEL",
                 null,
                 out mimeType,
                 out encoding,
@@ -145,7 +145,7 @@ namespace SMS.Controllers
                 out streams,
                 out warnings
                 );
-            Response.AddHeader("Content-Disposition", "attachment; filename=Test.pdf");
+            Response.AddHeader("Content-Disposition", "attachment; filename=Test.xls");
             return new FileContentResult(renderBytes, mimeType);
         }
     }

@@ -269,6 +269,16 @@
     <Compile Include="Models\ViewModel\StudentViewModel.cs" />
     <Compile Include="Models\ViewModel\SubjectSelectViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SchoolManagementSystemDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SchoolManagementSystemDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="SMSDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SMSDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -302,6 +312,18 @@
     </EntityDeploy>
     <Content Include="Models\DbModel\SMSModel.edmx.diagram">
       <DependentUpon>SMSModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="SchoolManagementSystemDataSet.xsc">
+      <DependentUpon>SchoolManagementSystemDataSet.xsd</DependentUpon>
+    </Content>
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="SchoolManagementSystemDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>SchoolManagementSystemDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="SchoolManagementSystemDataSet.xss">
+      <DependentUpon>SchoolManagementSystemDataSet.xsd</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -374,6 +396,17 @@
     <Content Include="Views\Student\IndexAjax.cshtml" />
     <Content Include="Views\Student\_IndexPartial.cshtml" />
     <Content Include="Views\Student\_Create.cshtml" />
+    <Content Include="SMSDataSet.xsc">
+      <DependentUpon>SMSDataSet.xsd</DependentUpon>
+    </Content>
+    <None Include="SMSDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>SMSDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="SMSDataSet.xss">
+      <DependentUpon>SMSDataSet.xsd</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -395,7 +428,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\Reports\StudentDetails.rdlc" />
+    <EmbeddedResource Include="Views\Reports\StudentDetails.rdlc">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
